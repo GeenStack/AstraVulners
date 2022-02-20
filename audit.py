@@ -42,6 +42,12 @@ def astra_cve_full_mapping(save=False, out_to="astra_cve_list.json"):
     return result
 
 
+def confirm_cve_in_astra(cve_id):
+    astra_cve_list = astra_cve_full_mapping()
+    for i in astra_cve_list:
+        if cve_id in astra_cve_list[i]:
+            return True
+    return False
 
 '''
 It is content some objects, such as are:
