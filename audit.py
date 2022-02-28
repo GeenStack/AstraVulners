@@ -42,12 +42,47 @@ def astra_cve_full_mapping(save=False, out_to="astra_cve_list.json"):
     return result
 
 
-def confirm_cve_in_astra(cve_id):
-    astra_cve_list = astra_cve_full_mapping()
-    for i in astra_cve_list:
-        if cve_id in astra_cve_list[i]:
-            return True
-    return False
+def update_local_json():
+    astra_cve_full_mapping(save=True)
+
+
+def confirm_cve_in_astra(cve_id, local_db=False, local_json=False):
+    """You can confirm single CVE in Astra Linux
+
+    This is return True, if CVE is confirmed.
+    Example: confirm_cve_in_astra("CVE-2021-4034")
+    Set local_db=True (False by default), if you want search CVE in local database.
+
+    """
+    if local_json:
+        if os.path.exists("astra_cve_list.json"):
+            with open("astra_cve_list.json") as f:
+                astra_cve_list = json.load(f)
+
+            vulnerabilities = []
+            for i in astra_cve_lists:
+                if cve_id in astra_cve_list[i]:
+                    vulnerabilities.append({i: cve_id})
+
+        else:
+            print("Need update local json")
+            return False
+    if local_db:
+        pass
+
+    else:
+        vulnerabilities = []
+        astra_cve_list = astra_cve_full_mapping()
+        for i in astra_cve_list:
+            if cve_id in astra_cve_list[i]:
+                vulnerabilities.append({i:cve_id})
+
+    if vulnerabilities:
+        print(vulnerabilities)
+        return True
+    else:
+        return False
+
 
 '''
 It is content some objects, such as are:
