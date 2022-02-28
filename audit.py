@@ -1,5 +1,6 @@
 import vulners
 import json
+import os.path
 from config import VULNERS_API_KEY
 
 
@@ -60,7 +61,7 @@ def confirm_cve_in_astra(cve_id, local_db=False, local_json=False):
                 astra_cve_list = json.load(f)
 
             vulnerabilities = []
-            for i in astra_cve_lists:
+            for i in astra_cve_list:
                 if cve_id in astra_cve_list[i]:
                     vulnerabilities.append({i: cve_id})
 
